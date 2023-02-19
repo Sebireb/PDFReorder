@@ -15,7 +15,6 @@ error_no_file = "Es wurde keine Datei ausgewählt!"
 error_file_does_not_exists = "Die angegebene Datei existiert nicht!"
 error_no_access = "Auf die angegebene Datei kann nicht zugegriffen werden (Anderer Prozess? )!"
 error_no_pdf = "Die angegebene Datei ist keine PDF-Datei!"
-error_not_even_pages = "Die angegebene Datei hat eine ungerade Seitenanzahl!"
 
 
 def get_file_path():
@@ -68,18 +67,15 @@ def create_reordered_pdf(file_path):
         new_pdf = PdfWriter()
         amount_pages = len(old_pdf.pages)
 
-        if amount_pages % 2 != 0:
-            messagebox.showerror(messagebox_title, error_not_even_pages)
-            sys.exit(-104)
-
-        half_pages = int(amount_pages / 2)
+        half_pages = int(amount_pages / 2 + 0.5)
 
         page_index = 0
         while page_index < half_pages:
             # Front:
             new_pdf.add_page(old_pdf.pages[page_index])
             # Back:
-            new_pdf.add_page(old_pdf.pages[half_pages + page_index])
+            if half_pages + page_index < amount_pages:
+                new_pdf.add_page(old_pdf.pages[half_pages + page_index])
 
             page_index += 1
 

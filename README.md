@@ -6,11 +6,12 @@ Scan all front-sides first, then all back-sides, then use this program to reorde
 | Input Page | Output Page |
 |------------|-------------|
 | <center>1  | <center>1   |
-| <center>2  | <center>4   |
+| <center>2  | <center>5   |
 | <center>3  | <center>2   |
-| <center>4  | <center>5   |
+| <center>4  | <center>6   |
 | <center>5  | <center>3   |
-| <center>6  | <center>6   |
+| <center>6  | <center>7   |
+| <center>7  | <center>4   |
 
 ## Install
 No need for installation, just download the [.exe-File](https://github.com/Sebireb/PDFReorder/releases/download/Release/PDFReorder.exe).
