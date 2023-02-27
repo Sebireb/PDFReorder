@@ -14,7 +14,7 @@ Scan all front-sides first, then all back-sides, then use this program to reorde
 | <center>Back| <center>7  | <center>4   |
 
 ## Install
-No need for installation, just download the [.exe-File](https://github.com/Sebireb/PDFReorder/releases/download/Release/PDFReorder.exe).
+No need for installation, just download the [.exe-File](https://github.com/Sebireb/PDFReorder/releases/download/Release1.1/PDFReorder.exe).
 
 ## Usage
 Just drag-and-drop a .pdf-File into the .exe-File.
