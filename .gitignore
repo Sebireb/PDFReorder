@@ -4,3 +4,4 @@
 **venv/
 **.spec
 **.pyc
+Output/**
