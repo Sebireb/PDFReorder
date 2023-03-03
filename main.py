@@ -7,10 +7,11 @@ from tkinter import filedialog
 from tkinter import messagebox
 
 
-output_file_path = "output.pdf"
 file_dialog_title = "PDF-Datei auswählen"
+file_save_dialog_title = "PDF-Datei speichern"
 file_dialog_types = [("PDF-Datei", "*.pdf")]
 messagebox_title = "PDFReorder"
+messagebox_success = "Die PDF-Datei wurde umsortiert."
 error_no_file = "Es wurde keine Datei ausgewählt!"
 error_file_does_not_exists = "Die angegebene Datei existiert nicht!"
 error_no_access = "Auf die angegebene Datei kann nicht zugegriffen werden (Anderer Prozess? )!"
@@ -25,8 +26,7 @@ def get_file_path():
     root.withdraw()
     file_path = filedialog.askopenfilename(
         title=file_dialog_title,
-        filetypes=file_dialog_types,
-        initialdir=os.getcwd()
+        filetypes=file_dialog_types
     )
 
     if file_path is None or file_path == "":
@@ -45,15 +45,21 @@ def check_access_to_file(file_path):
         sys.exit(-102)
 
 
-def uniquify(path):
-    filename, extension = os.path.splitext(path)
-    counter = 1
+def get_output_path():
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.asksaveasfilename(
+        title=file_save_dialog_title,
+        filetypes=file_dialog_types,
+        defaultextension='pdf',
+        confirmoverwrite=True
+    )
 
-    while os.path.exists(path):
-        path = filename + "_" + str(counter) + extension
-        counter += 1
+    if file_path is None or file_path == "":
+        messagebox.showerror(messagebox_title, error_no_file)
+        sys.exit(-100)
 
-    return path
+    return file_path
 
 
 def create_reordered_pdf(file_path):
@@ -79,9 +85,13 @@ def create_reordered_pdf(file_path):
 
             page_index += 1
 
-    output_path = uniquify(output_file_path)
+    output_path = get_output_path()
     with open(output_path, "wb") as file:
         new_pdf.write(file)
+
+
+def show_success_popup():
+    tk.messagebox.showinfo(title=messagebox_title, message=messagebox_success)
 
 
 def reorder_pdf():
