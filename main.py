@@ -45,13 +45,14 @@ def check_access_to_file(file_path):
         sys.exit(-102)
 
 
-def get_output_path():
+def get_output_path(file_path):
     root = tk.Tk()
     root.withdraw()
     file_path = filedialog.asksaveasfilename(
         title=file_save_dialog_title,
         filetypes=file_dialog_types,
         defaultextension='pdf',
+        initialfile=os.path.basename(file_path),
         confirmoverwrite=True
     )
 
@@ -81,13 +82,17 @@ def create_reordered_pdf(file_path):
             new_pdf.add_page(old_pdf.pages[page_index])
             # Back:
             if half_pages + page_index < amount_pages:
-                new_pdf.add_page(old_pdf.pages[half_pages + page_index])
+                new_pdf.add_page(old_pdf.pages[amount_pages - 1 - page_index])
 
             page_index += 1
 
-    output_path = get_output_path()
-    with open(output_path, "wb") as file:
-        new_pdf.write(file)
+    output_path = get_output_path(file_path)
+    try:
+        with open(output_path, "wb") as file:
+            new_pdf.write(file)
+    except OSError:
+        messagebox.showerror(messagebox_title, error_no_access)
+        sys.exit(-102)
 
 
 def show_success_popup():
@@ -98,6 +103,7 @@ def reorder_pdf():
     file_path = get_file_path()
     check_access_to_file(file_path)
     create_reordered_pdf(file_path)
+    show_success_popup()
 
 
 if __name__ == '__main__':
